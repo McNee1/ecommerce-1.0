@@ -1,0 +1,14 @@
+.card-price_def {
+  font-size: 17px;
+  font-weight: 500;
+}
+.card-price_del {
+  text-decoration: line-through;
+  font-size: 15px;
+  color: #575757;
+}
+
+.text {
+  font-weight: 500;
+  color: #726f6f;
+}

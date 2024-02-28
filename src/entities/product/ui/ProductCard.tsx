@@ -5,11 +5,15 @@ import { PRODUCT_DERAILS } from '@/app/providers/router/lib/path';
 import { useImgObserver } from '@/shared/hooks/useImgObserver';
 import { countDiscountPrice } from '@/shared/lib/discount';
 import { formatCurrency } from '@/shared/lib/formatCurrency';
+import { Description } from '@/shared/ui/description/Description';
+import { DiscountBadge } from '@/shared/ui/discount-badge/DiscountBadge';
+import { DiscountPrice } from '@/shared/ui/discount-pice/DiscountPrice';
+import { Price } from '@/shared/ui/price/Price';
+import { Rating } from '@/shared/ui/rating/Rating';
+import { TotalPrice } from '@/widgets/total-price';
 
 import { ProductSchema } from '../model/types/product-type';
-import { ProductButton } from './ui/ProductButton/ProductButton';
-import { ProductDescription } from './ui/ProductDescription/ProductDescription';
-import { ProductRating } from './ui/ProductRating/ProductRating';
+import { ProductButton } from './ui/product-button/ProductButton';
 
 interface ProductCardProps {
   product: ProductSchema;
@@ -38,55 +42,28 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </Link>
 
         <div className='card-body overflow-hidden p-2 d-flex flex-column'>
-          <div className='card-title mb-1'>
-            <div
-              className={[
-                'card-price',
-                product.discountPercentage ? 'card-price_del' : 'card-price_def',
-              ].join(' ')}
+          <h5 className='card-title mb-1'>{product.title}</h5>
+          <div className='price'>
+            <Price
+              discount={product.discountPercentage}
+              price={formatCurrency(product.price)}
+            />
+            <DiscountPrice
+              discount={product.discountPercentage}
+              discountPrice={formatCurrency(
+                countDiscountPrice(product.price, product.discountPercentage)
+              )}
             >
-              {formatCurrency(product.price)}
-            </div>
-            {(product.discountPercentage || !product.discountPercentage === 0) && (
-              <div
-                className='card-discount'
-                style={{ display: 'inline-flex', alignItems: 'center' }}
-              >
-                <div style={{ fontWeight: '600', fontSize: '19px' }}>
-                  {formatCurrency(
-                    countDiscountPrice(product.price, product.discountPercentage)
-                  )}
-                </div>
-                <div>
-                  <span
-                    className='ms-2 ps-1 pe-1 rounded-end rounded-5 fs-6'
-                    style={{
-                      backgroundColor: '#ec0000',
-                      color: 'white',
-                      padding: '1px 0',
-                    }}
-                  >
-                    -{Math.floor(product.discountPercentage)} %
-                  </span>
-                </div>
-              </div>
-            )}
-            <div className='card-name'>
-              <p
-                className='m-0'
-                style={{ fontWeight: '500', color: '#726f6f' }}
-              >
-                {product.title}
-              </p>
-            </div>
+              <DiscountBadge discount={product.discountPercentage} />
+            </DiscountPrice>
           </div>
-          <ProductRating
+          <Rating
             className='mb-1'
             rating={product.rating}
           />
-          <ProductDescription
+          <Description
             className='mb-2'
-            isDescription={true}
+            short
             description={product.description}
           />
 

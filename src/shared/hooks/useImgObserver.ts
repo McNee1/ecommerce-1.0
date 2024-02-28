@@ -14,6 +14,7 @@ export const useImgObserver = (imgRef: HTMLElement | null) => {
 
           if (target.dataset.src) {
             target.src = target.dataset.src;
+            target.removeAttribute('data-src');
             observer.unobserve(target);
           }
         }

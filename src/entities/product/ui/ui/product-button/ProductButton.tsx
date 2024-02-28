@@ -1,5 +1,5 @@
 import { ProductSchema } from '@/entities/product';
-import { AppButton } from '@/shared/ui/AppButton/AppButton';
+import { AppButton } from '@/shared/ui/app-button/AppButton';
 
 interface ProductButtonProps {
   product: ProductSchema;
