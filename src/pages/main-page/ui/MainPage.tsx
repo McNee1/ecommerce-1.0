@@ -1,11 +1,7 @@
 import axios, { isAxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
-import { MdCard } from '@/entities/product';
-import {
-  ProductApiResponse,
-  ProductSchema,
-} from '@/entities/product/model/types/product-type';
+import { MdCard, ProductApiResponse, ProductSchema } from '@/entities/products';
 
 export const MainPage = () => {
   const [products, setProducts] = useState<ProductSchema[]>([]);
@@ -43,7 +39,7 @@ export const MainPage = () => {
       <div className='row gx-2 gy-3'>
         <>
           {products.length ? (
-            products.map((product, id) => (
+            products.map((product) => (
               <div
                 key={product.id}
                 className='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
