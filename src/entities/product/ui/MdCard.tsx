@@ -1,39 +1,31 @@
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import { PRODUCT_DERAILS } from '@/app/providers/router/lib/path';
-import { useImgObserver } from '@/shared/hooks/useImgObserver';
 import { countDiscountPrice } from '@/shared/lib/discount';
 import { formatCurrency } from '@/shared/lib/formatCurrency';
 import { Description } from '@/shared/ui/description/Description';
 import { DiscountBadge } from '@/shared/ui/discount-badge/DiscountBadge';
 import { DiscountPrice } from '@/shared/ui/discount-pice/DiscountPrice';
+import { LazyImg } from '@/shared/ui/lazy-img/LazyImg';
 import { Price } from '@/shared/ui/price/Price';
 import { Rating } from '@/shared/ui/rating/Rating';
-import { TotalPrice } from '@/widgets/total-price';
 
 import { ProductSchema } from '../model/types/product-type';
 import { ProductButton } from './ui/product-button/ProductButton';
 
-interface ProductCardProps {
+interface MdCardProps {
   product: ProductSchema;
 }
 
-export const ProductCard = ({ product }: ProductCardProps) => {
-  const imgRef = useRef<HTMLImageElement | null>(null);
-
-  useImgObserver(imgRef.current);
-
+export const MdCard = ({ product }: MdCardProps) => {
   return (
     <div className='card border-0 h-100'>
       <div className='card bg-light h-100 col'>
         <Link to={{ pathname: `${PRODUCT_DERAILS}/${product.id}` }}>
-          <img
+          <LazyImg
             alt={product.title}
             className={['card-img-top', 'position-relative lazy-img'].join(' ')}
-            src={'/src/shared/assets/img/img_placeholder.png'}
-            data-src={product.images}
-            ref={imgRef}
+            src={product.thumbnail}
             style={{
               height: '100%',
               aspectRatio: 1 / 1,

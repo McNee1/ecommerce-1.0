@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { CartPage } from '@/pages/cart';
-import { MainPage } from '@/pages/main';
-import { ProductDetailsPage } from '@/pages/product';
+import { CartPage } from '@/pages/cart-page';
+import { MainPage } from '@/pages/main-page';
+import { ProductDetailsPage } from '@/pages/product-page';
 import { Root } from '@/widgets/layout/ui/Root';
 
 import { PathRoute } from '../lib/path';
