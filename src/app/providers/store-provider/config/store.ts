@@ -1,9 +1,13 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
+import { productsReducer } from '@/entities/products/model/slice/products-slice';
 import { counterReducer } from '@/pages/cart-page/counter';
 
-const rootReducer = combineReducers({
+import { StateSchema } from './state-schema';
+
+const rootReducer = combineReducers<StateSchema>({
   counter: counterReducer,
+  products: productsReducer,
 });
 
 export const setupStore = configureStore({

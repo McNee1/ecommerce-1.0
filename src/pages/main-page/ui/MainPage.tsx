@@ -1,30 +1,27 @@
-import axios, { isAxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { MdCard, ProductApiResponse, ProductSchema } from '@/entities/products';
+import { useAppDispatch, useAppSelector } from '@/app/hook/hooks';
+import {
+  fetchProducts,
+  MdCard,
+  selectProducts,
+  selectProductsError,
+  selectProductsStatus,
+} from '@/entities/products';
 
 export const MainPage = () => {
-  const [products, setProducts] = useState<ProductSchema[]>([]);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
+
+  const products = useAppSelector(selectProducts);
+  const status = useAppSelector(selectProductsStatus);
+  const error = useAppSelector(selectProductsError);
 
   useEffect(() => {
-    void axios
-      .get<ProductApiResponse>('https://dummyjson.com/products?limit=10')
-      .then(({ data }) => setProducts(data.products))
-      .catch((error) => {
-        console.log(error);
-        if (isAxiosError(error)) {
-          setError(error.name);
-        } else {
-          setError('Error occurred while making API call');
-        }
-      })
-      .finally(() => setLoading(false));
-  }, []);
+    void dispatch(fetchProducts(10));
+  }, [dispatch]);
 
-  if (loading) {
-    return 'loading';
+  if (status === 'pending') {
+    return 'pending';
   }
   if (error) {
     return error;
@@ -38,7 +35,7 @@ export const MainPage = () => {
 
       <div className='row gx-2 gy-3'>
         <>
-          {products.length ? (
+          {products ? (
             products.map((product) => (
               <div
                 key={product.id}

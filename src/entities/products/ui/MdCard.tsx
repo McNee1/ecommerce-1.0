@@ -10,11 +10,11 @@ import { LazyImg } from '@/shared/ui/lazy-img/LazyImg';
 import { Price } from '@/shared/ui/price/Price';
 import { Rating } from '@/shared/ui/rating/Rating';
 
-import { ProductSchema } from '../model/types/product-type';
+import type { ProductData } from '../model/types/product-type';
 import { ProductButton } from './ui/product-button/ProductButton';
 
 interface MdCardProps {
-  product: ProductSchema;
+  product: ProductData;
 }
 
 export const MdCard = ({ product }: MdCardProps) => {

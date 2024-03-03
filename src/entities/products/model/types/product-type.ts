@@ -1,4 +1,4 @@
-export interface ProductSchema {
+export interface ProductData {
   id: number;
   title: string;
   description: string;
@@ -13,8 +13,14 @@ export interface ProductSchema {
 }
 
 export interface ProductApiResponse {
-  products: ProductSchema[];
-  total: 100;
-  skip: 0;
-  limit: 30;
+  products: ProductData[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+export interface ProductSchema {
+  products: ProductData[] | null;
+  status: 'idle' | 'pending' | 'succeeded' | 'failed';
+  error: string | null;
 }

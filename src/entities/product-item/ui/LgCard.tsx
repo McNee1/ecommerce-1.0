@@ -1,4 +1,4 @@
-import { ProductSchema } from '@/entities/product';
+import { ProductData } from '@/entities/products';
 import { countDiscountPrice } from '@/shared/lib/discount';
 import { formatCurrency } from '@/shared/lib/formatCurrency';
 import { Description } from '@/shared/ui/description/Description';
@@ -9,7 +9,7 @@ import { Price } from '@/shared/ui/price/Price';
 import { Rating } from '@/shared/ui/rating/Rating';
 
 interface LgCardProps {
-  product: ProductSchema;
+  product: ProductData;
   activeClass: number;
 }
 
