@@ -9,27 +9,27 @@ import { Price } from '@/shared/ui/price/Price';
 import { Rating } from '@/shared/ui/rating/Rating';
 
 interface LgCardProps {
-  product: ProductData;
   activeClass: number;
+  product: ProductData;
 }
 
-export const LgCard = ({ product, activeClass }: LgCardProps) => {
+export const LgCard = ({ activeClass, product }: LgCardProps) => {
   return (
     <div>
       <div className='card border-0'>
         <div className='row gx-2'>
           <div className='col-md-4 col-lg-5'>
             <LazyImg
-              alt={product.title}
-              src={product.images[activeClass]}
               style={{
-                maxWidth: '300px',
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
                 aspectRatio: '1/1',
+                height: '100%',
+                maxWidth: '300px',
+                objectFit: 'cover',
+                width: '100%',
               }}
+              alt={product.title}
               className='img-fluid rounded'
+              src={product.images[activeClass]}
             />
           </div>
           <div className='col-md-8 col-lg-7'>
@@ -37,23 +37,23 @@ export const LgCard = ({ product, activeClass }: LgCardProps) => {
               <h5 className='card-title mb-1'>{product.title}</h5>
               <div className='price'>
                 <Price
-                  discount={product.discountPercentage}
                   price={formatCurrency(product.price)}
+                  discount={product.discountPercentage}
                 />
 
                 <DiscountPrice
-                  discount={product.discountPercentage}
                   discountPrice={formatCurrency(
                     countDiscountPrice(product.price, product.discountPercentage)
                   )}
+                  discount={product.discountPercentage}
                 >
                   <DiscountBadge discount={product.discountPercentage} />
                 </DiscountPrice>
               </div>
 
               <Rating
-                rating={product.rating}
                 className='mb-2'
+                rating={product.rating}
               />
               <div className='mb-2'>
                 <span className='text'>Brand: </span>

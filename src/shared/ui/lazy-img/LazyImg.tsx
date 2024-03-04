@@ -1,8 +1,8 @@
-import { ImgHTMLAttributes, useEffect, useRef } from 'react';
+import { ImgHTMLAttributes,useEffect, useRef } from 'react';
 
 interface LazyImgPros extends ImgHTMLAttributes<HTMLImageElement> {
-  src: string;
   alt: string;
+  src: string;
 }
 
 const options = {
@@ -12,7 +12,7 @@ const options = {
 export const LazyImg = (props: LazyImgPros) => {
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const { src, alt, ...rest } = props;
+  const { alt, src, ...rest } = props;
 
   useEffect(() => {
     const callback = (
@@ -41,8 +41,8 @@ export const LazyImg = (props: LazyImgPros) => {
     <img
       {...rest}
       alt={alt}
-      style={props.style}
       ref={imgRef}
+      style={props.style}
       src='/src/shared/assets/img/img_placeholder.png'
     />
   );

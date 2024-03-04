@@ -1,26 +1,26 @@
 export interface ProductData {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
   brand: string;
   category: string;
-  thumbnail: string;
+  description: string;
+  discountPercentage: number;
+  id: number;
   images: string[];
+  price: number;
+  rating: number;
+  stock: number;
+  thumbnail: string;
+  title: string;
 }
 
 export interface ProductApiResponse {
-  products: ProductData[];
-  total: number;
-  skip: number;
   limit: number;
+  products: ProductData[];
+  skip: number;
+  total: number;
 }
 
 export interface ProductSchema {
+  error: null | string;
   products: ProductData[] | null;
-  status: 'idle' | 'pending' | 'succeeded' | 'failed';
-  error: string | null;
+  status: 'failed' | 'idle' | 'pending' | 'succeeded';
 }

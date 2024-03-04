@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes } from 'react';
 
 type AppButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const AppButton = ({ className, children, ...rest }: AppButtonProps) => {
+export const AppButton = ({ children, className, ...rest }: AppButtonProps) => {
   return (
     <button
       className={['btn btn-', className].join('')}

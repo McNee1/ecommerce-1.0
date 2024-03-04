@@ -1,9 +1,9 @@
 interface RatingProps {
-  rating: number;
   className?: string;
+  rating: number;
 }
 
-export const Rating = ({ rating, className }: RatingProps) => {
+export const Rating = ({ className, rating }: RatingProps) => {
   return (
     <>
       {rating && (

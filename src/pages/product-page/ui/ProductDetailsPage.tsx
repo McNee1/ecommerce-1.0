@@ -1,6 +1,6 @@
-import axios, { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
 
 import { LgCard } from '@/entities/product-item';
 import { ProductSchema } from '@/entities/products';
@@ -8,12 +8,12 @@ import { ImageBar } from '@/shared/ui/img-bar/ImageBar';
 import { LazyImg } from '@/shared/ui/lazy-img/LazyImg';
 import { Loader } from '@/shared/ui/loader/Loader';
 
-type StatusType = 'idle' | 'success' | 'loading';
+type StatusType = 'idle' | 'loading' | 'success';
 
 const styleImg = {
-  width: '70px',
-  height: '70px',
   cursor: 'pointer',
+  height: '70px',
+  width: '70px',
 };
 
 export const ProductDetailsPage = () => {
@@ -63,20 +63,20 @@ export const ProductDetailsPage = () => {
   return (
     <div className='d-flex flex-row mt-4'>
       <ImageBar
-        images={product.images}
         renderImg={(img: string, id: number) => (
           <LazyImg
-            key={img}
-            src={img}
-            alt={product.title}
-            onClick={() => setActiveClass(id)}
-            style={styleImg}
             className={[
               'mb-2 p-1 rounded lazy',
               id == activeClass && 'border border-warning',
             ].join(' ')}
+            key={img}
+            src={img}
+            style={styleImg}
+            alt={product.title}
+            onClick={() => setActiveClass(id)}
           />
         )}
+        images={product.images}
       />
 
       <LgCard

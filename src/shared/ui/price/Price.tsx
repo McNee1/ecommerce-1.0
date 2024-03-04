@@ -1,12 +1,12 @@
 interface PriceProps {
-  price: string;
   discount: number;
+  price: string;
 }
 
-export const Price = ({ price, discount }: PriceProps) => {
+export const Price = ({ discount, price }: PriceProps) => {
   return (
     <div className='d-flex align-items-center'>
-      <span style={{ fontWeight: '500', color: '#726f6f' }}>Price:</span>
+      <span style={{ color: '#726f6f', fontWeight: '500' }}>Price:</span>
 
       <div
         className={[

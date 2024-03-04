@@ -2,21 +2,21 @@ import { ProductSchema } from '@/entities/product';
 import { AppButton } from '@/shared/ui/app-button/AppButton';
 
 interface ProductButtonProps {
-  product: ProductSchema;
   addingStatus: string;
   btnOpt: object;
   isButton: boolean;
-  onHandleCounter: () => void;
   onAddToCart: () => void;
+  onHandleCounter: () => void;
+  product: ProductSchema;
 }
 
 export const ProductButton = ({
-  product,
   addingStatus,
-  isButton,
-  onHandleCounter,
-  onAddToCart,
   btnOpt = {},
+  isButton,
+  onAddToCart,
+  onHandleCounter,
+  product,
 }: ProductButtonProps) => {
   const clickHandler = (e, id) => {
     const btn = e.target.closest('button');
@@ -28,17 +28,17 @@ export const ProductButton = ({
     <>
       {!product.count && isButton && (
         <AppButton
-          className='success bg-gradient mt-auto w-100'
           onClick={() => onAddToCart(product)}
           disabled={addingStatus === 'loading'}
+          className='success bg-gradient mt-auto w-100'
         >
           <span className={addingStatus === 'loading' ? 'd-none' : ''}>Add to cart</span>
 
           {addingStatus === 'loading' && (
             <div
-              className='spinner-border text-primary'
-              style={{ width: '1rem', height: '1rem' }}
               role='status'
+              className='spinner-border text-primary'
+              style={{ height: '1rem', width: '1rem' }}
             >
               <span className='visually-hidden'>Loading...</span>
             </div>
@@ -53,16 +53,16 @@ export const ProductButton = ({
         >
           <AppButton
             data-counter='decrease'
-            className={['warning', btnOpt.btn].join(' ')}
             onClick={(e) => clickHandler(e, product.id)}
+            className={['warning', btnOpt.btn].join(' ')}
           >
             <svg
-              xmlns='http://www.w3.org/2000/svg'
               width='16'
               height='16'
               fill='currentColor'
-              className='bi bi-dash-lg'
               viewBox='0 0 16 16'
+              className='bi bi-dash-lg'
+              xmlns='http://www.w3.org/2000/svg'
             >
               <path
                 fillRule='evenodd'
@@ -77,12 +77,12 @@ export const ProductButton = ({
             onClick={(e) => clickHandler(e, product.id)}
           >
             <svg
-              xmlns='http://www.w3.org/2000/svg'
               width='15'
               height='16'
               fill='currentColor'
-              className='bi bi-plus-lg'
               viewBox='0 0 16 16'
+              className='bi bi-plus-lg'
+              xmlns='http://www.w3.org/2000/svg'
             >
               <path
                 fillRule='evenodd'

@@ -1,12 +1,12 @@
 interface DescriptionProps {
-  description: string;
   className?: string;
+  description: string;
   short?: boolean;
 }
 
 export const Description = ({
-  description,
   className,
+  description,
   short = false,
 }: DescriptionProps) => {
   let str;

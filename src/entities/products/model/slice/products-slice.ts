@@ -1,18 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 import { fetchProducts } from '../services/fetch-products';
 import { ProductSchema } from '../types/product-type';
 
 const initialState: ProductSchema = {
+  error: null,
   products: null,
   status: 'idle',
-  error: null,
 };
 
 export const productsSlice = createSlice({
-  name: 'productSlice',
-  initialState,
-  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.pending, (state) => {
       if (state.status === 'idle') {
@@ -31,6 +27,9 @@ export const productsSlice = createSlice({
       state.error = null;
     });
   },
+  initialState,
+  name: 'productSlice',
+  reducers: {},
 });
 
 export const { reducer: productsReducer } = productsSlice;

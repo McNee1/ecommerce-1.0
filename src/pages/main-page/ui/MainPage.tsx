@@ -8,6 +8,7 @@ import {
   selectProductsError,
   selectProductsStatus,
 } from '@/entities/products';
+import { Loader } from '@/shared/ui/loader/Loader';
 
 export const MainPage = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +22,7 @@ export const MainPage = () => {
   }, [dispatch]);
 
   if (status === 'pending') {
-    return 'pending';
+    return <Loader />;
   }
   if (error) {
     return error;

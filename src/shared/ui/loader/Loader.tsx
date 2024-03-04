@@ -1,20 +1,20 @@
 export const Loader = () => {
   return (
     <div
-      className='d-flex justify-content-center align-items-center'
       style={{
-        position: 'absolute',
-        top: 0,
+        backgroundColor: '#fff',
         bottom: 0,
         left: 0,
+        position: 'absolute',
         right: 0,
-        backgroundColor: '#fff',
+        top: 0,
       }}
+      className='d-flex justify-content-center align-items-center'
     >
       <div
-        className='spinner-border text-primary'
-        style={{ width: '3em', height: '3em' }}
         role='status'
+        className='spinner-border text-primary'
+        style={{ height: '3em', width: '3em' }}
       ></div>
     </div>
   );

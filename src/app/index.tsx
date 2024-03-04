@@ -1,5 +1,4 @@
 import { RouterProvider } from 'react-router-dom';
-
 import { useRouter } from './providers/router';
 import { StoreProvider } from './providers/store-provider';
 

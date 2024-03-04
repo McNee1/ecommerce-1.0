@@ -1,22 +1,22 @@
 import { ReactNode } from 'react';
 
 export const DiscountPrice = ({
-  discountPrice,
   children,
   discount,
+  discountPrice,
 }: {
-  discountPrice: string;
   children: ReactNode;
   discount: number;
+  discountPrice: string;
 }) => {
   return (
     <>
       {discount && (
         <div
           className='card-discount'
-          style={{ display: 'inline-flex', alignItems: 'center' }}
+          style={{ alignItems: 'center', display: 'inline-flex' }}
         >
-          <div style={{ fontWeight: '600', fontSize: '19px' }}>{discountPrice}</div>
+          <div style={{ fontSize: '19px', fontWeight: '600' }}>{discountPrice}</div>
 
           {children}
         </div>

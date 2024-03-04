@@ -9,6 +9,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:jsx-a11y/recommended',
+
     'prettier',
   ],
   parserOptions: {
@@ -19,12 +20,42 @@ module.exports = {
   },
   ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', 'simple-import-sort', 'import'],
+  plugins: ['react-refresh', 'simple-import-sort', 'import', 'perfectionist'],
   rules: {
-    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    'simple-import-sort/imports': [
+      'error',
+      {
+        groups: [
+          [
+            '^react',
+            '^@?\\w',
+            '^(app|pages|widgets|features|entities|shared|main)(/.*|$)',
+            '^\\u0000',
+            '^\\.\\.(?!/?$)',
+            '^\\.\\./?$',
+            '^\\./(?=.*/)(?!/?$)',
+            '^\\.(?!/?$)',
+            '^\\./?$',
+            '^.+\\.s?css$',
+          ],
+        ],
+      },
+    ],
 
-    'simple-import-sort/imports': 'error',
+    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    'perfectionist/sort-interfaces': 'error',
+    'perfectionist/sort-jsx-props': [
+      'error',
+      {
+        type: 'line-length',
+        order: 'asc',
+        groups: ['multiline', 'unknown', 'shorthand'],
+      },
+    ],
+
+    // 'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
+
     'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-duplicates': 'error',
