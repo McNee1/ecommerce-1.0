@@ -17,22 +17,15 @@ export const LgCard = ({ activeClass, product }: LgCardProps) => {
   return (
     <div>
       <div className='card border-0'>
-        <div className='row gx-2'>
-          <div className='col-md-4 col-lg-5'>
+        <div className='row'>
+          <div className='col-md-4 col-lg-4'>
             <LazyImg
-              style={{
-                aspectRatio: '1/1',
-                height: '100%',
-                maxWidth: '300px',
-                objectFit: 'cover',
-                width: '100%',
-              }}
               alt={product.title}
-              className='img-fluid rounded'
+              className='w-100 h-100'
               src={product.images[activeClass]}
             />
           </div>
-          <div className='col-md-8 col-lg-7'>
+          <div className='col-md-8 col-lg-8 flex-grow-0'>
             <div className='card-body pt-1 p-0 pt-md-0'>
               <h5 className='card-title mb-1'>{product.title}</h5>
               <div className='price'>
@@ -55,14 +48,14 @@ export const LgCard = ({ activeClass, product }: LgCardProps) => {
                 className='mb-2'
                 rating={product.rating}
               />
-              <div className='mb-2'>
+              <p className='mb-2'>
                 <span className='text'>Brand: </span>
                 {product.brand}
-              </div>
-              <div className='category mb-2'>
+              </p>
+              <p className='category mb-2'>
                 <span className='text'>Category: </span>
                 {product.category}
-              </div>
+              </p>
 
               <Description description={product.description} />
             </div>

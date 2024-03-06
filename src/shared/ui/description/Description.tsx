@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 interface DescriptionProps {
   className?: string;
   description: string;
@@ -11,14 +13,24 @@ export const Description = ({
 }: DescriptionProps) => {
   let str;
   if (short) {
-    str = description?.length > 45 ? description.slice(0, 46) + '...' : description;
+    str = description?.length > 47 ? description.slice(0, 48) + '...' : description;
   } else {
     str = description;
   }
+
   return (
     <>
-      {short || <span className='text'>Description:</span>}
-      <p className={['card-text', className].join(' ')}>{str}</p>
+      <div
+        style={{
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+        }}
+        className={['card-text ', className].join(' ')}
+      >
+        <span className='text'>Description: </span>
+        <span>{str}</span>
+      </div>
     </>
   );
 };

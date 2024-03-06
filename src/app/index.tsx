@@ -7,7 +7,7 @@ export const Provider = () => {
 
   return (
     <StoreProvider>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </StoreProvider>
   );
 };

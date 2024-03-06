@@ -9,13 +9,12 @@ import { Root } from '@/widgets/layout/ui/Root';
 export const useRouter = () => {
   const router = createBrowserRouter([
     {
+      element: <Root />,
       children: [
         { element: <MainPage />, path: PathRoute.MAIN },
         { element: <CartPage />, path: PathRoute.CART },
         { element: <ProductDetailsPage />, path: PathRoute.PRODUCT },
       ],
-
-      element: <Root />,
     },
   ]);
 

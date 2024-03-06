@@ -1,3 +1,3 @@
-import type { StateSchema } from '@/app/providers/store-provider/config/state-schema';
+import { StateSchema } from '@/app/providers/store-provider';
 
 export const selectProductsStatus = (state: StateSchema) => state.products.status;

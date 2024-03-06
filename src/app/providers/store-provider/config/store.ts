@@ -1,18 +1,18 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { StateSchema } from './state-schema';
 
-import { productsReducer } from '@/entities/products/model/slice/products-slice';
-import { counterReducer } from '@/pages/cart-page/counter';
+import { cartReducer } from '@/entities/cart';
+import { productsReducer } from '@/entities/products';
 
-const rootReducer = combineReducers<StateSchema>({
-  counter: counterReducer,
-  products: productsReducer,
+export const setupStore = configureStore<StateSchema>({
+  reducer: {
+    products: productsReducer,
+    cart: cartReducer,
+  },
 });
 
-export const setupStore = configureStore({
-  reducer: rootReducer,
-});
-
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof setupStore.getState>;
 
 export type AppDispatch = typeof setupStore.dispatch;
+
+export default setupStore;

@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useAppDispatch,useAppSelector } from '@/app/hook/hooks';
-import { fetchProducts,selectProducts, selectProductsStatus } from '@/entities/products';
+import { useAppDispatch, useAppSelector } from '@/app/hook/hooks';
+import { selectShoppingCart } from '@/entities/cart/model/slice/cart-slice';
+import { selectProducts, selectProductsStatus } from '@/entities/products';
 import { countDiscountPrice } from '@/shared/lib/discount';
 import { formatCurrency } from '@/shared/lib/formatCurrency';
 import { Description } from '@/shared/ui/description/Description';
@@ -17,10 +18,11 @@ export const CartPage = () => {
   const status = useAppSelector(selectProductsStatus);
 
   const dispatch = useAppDispatch();
+  const shoppingCart = useAppSelector(selectShoppingCart);
 
-  useEffect(() => {
-    void dispatch(fetchProducts(10));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   void dispatch(fetchProducts(10));
+  // }, [dispatch]);
 
   if (status === 'pending') {
     return <Loader />;
@@ -30,47 +32,44 @@ export const CartPage = () => {
     <>
       <div className='cart mt-1'>
         <h3 className='mb-3'>Shopping basket</h3>
-        <div className='d-flex flex-column-reverse flex-md-row'>
-          <div className='row'>
-            <div className='col w-100'>
-              <div className='cart-list'>
-                {products ? (
-                  products.map((product, id) => (
+        {/* <div className='d-flex flex-column-reverse flex-md-row w-100'> */}
+        <div className='row'>
+          {shoppingCart ? (
+            <>
+              <div className='col-12 col-md-8 col-lg-9'>
+                <div className='cart-list'>
+                  {shoppingCart?.map((product, id) => (
                     <div
                       key={product.id}
-                      className='d-flex flex-row'
+                      className='d-flex flex-row mb-2'
                     >
-                      <div className='custom-checkbox  '>
+                      <div className='custom-checkbox'>
                         <input
-                          id={'foo'}
+                          id={id}
                           type='checkbox'
                           // onChange={onChange}
                         />
-                        <label htmlFor={'foo'} />
+                        <label htmlFor={id} />
                       </div>
-                      <div className='card bg-light   w-100 flex-row'>
+                      <div
+                        style={{ height: '130px' }}
+                        className='card w-100 flex-row'
+                      >
                         <Link to={`/product/${product.id}`}>
-                          <div
+                          <img
                             style={{
-                              height: '150px',
+                              height: '100%',
+                              objectFit: 'cover',
                               width: '150px',
                             }}
-                          >
-                            <img
-                              style={{
-                                height: '100%',
-                                objectFit: 'cover',
-                                width: '100%',
-                              }}
-                              className=''
-                              alt={product.title}
-                              src={product.images}
-                              // src={'src/assets/img_placeholder.png'}
-                              // data-src={product.thumbnail}
-                              // ref={ref}
-                              // style={imgOpt?.size}
-                            />
-                          </div>
+                            className=''
+                            alt={product.title}
+                            src={product.images}
+                            // src={'src/assets/img_placeholder.png'}
+                            // data-src={product.thumbnail}
+                            // ref={ref}
+                            // style={imgOpt?.size}
+                          />
                         </Link>
                         {/* {isDelete && (
                         <AppButton
@@ -89,25 +88,28 @@ export const CartPage = () => {
                         </AppButton>
                       )} */}
                         <div className='card-body p-1 ps-3 overflow-hidden'>
-                          <div className='card-title'>
-                            <Price
-                              discount={product.discountPercentage}
-                              price={formatCurrency(product.price)}
-                            />
-                            <DiscountPrice
-                              discountPrice={formatCurrency(
-                                countDiscountPrice(
-                                  product.price,
-                                  product.discountPercentage
-                                )
-                              )}
-                              discount={product.discountPercentage}
-                            >
-                              <DiscountBadge discount={product.discountPercentage} />
-                            </DiscountPrice>
-                            <Rating rating={product.rating} />
-                            <Description description={product.description} />
-                          </div>
+                          <h5 className='card-title mb-1 fs-6'>{product.title}</h5>
+                          <Price
+                            discount={product.discountPercentage}
+                            price={formatCurrency(product.price)}
+                          />
+                          <DiscountPrice
+                            discountPrice={formatCurrency(
+                              countDiscountPrice(
+                                product.price,
+                                product.discountPercentage
+                              )
+                            )}
+                            discount={product.discountPercentage}
+                          >
+                            <DiscountBadge discount={product.discountPercentage} />
+                          </DiscountPrice>
+                          <Rating rating={product.rating} />
+                          <Description
+                            description={product.description}
+                            // short
+                          />
+
                           {/* <CartButtons
                           product={product}
                           {...rest}
@@ -115,35 +117,36 @@ export const CartPage = () => {
                         </div>
                       </div>
                     </div>
-                  ))
-                ) : (
-                  <div className='text-center fs-5'>List is empty</div>
-                )}
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className='col'>
-              <div className='price-cart mx-auto mx-md-0 mb-3 ms-md-auto position-sticky top-0'>
-                <div className='p-2 bg-white rounded border border-warning position-sticky top-0'>
-                  <div className='count-products d-flex border-bottom border-dark mb-2 pb-1'>
-                    <span>All 10 product</span>
-                    <span className='ms-auto'>{formatCurrency(200)}</span>
-                  </div>
-                  <div className='total-discount d-flex'>
-                    <span>Discount amount:</span>
-                    <span className='ms-auto text-danger'>
-                      {'10%' ? '-' : ''}
-                      {formatCurrency(5)}
-                    </span>
-                  </div>
+              <div className='col col-md-4 col-lg-3'>
+                <div className='price-cart mx-auto mx-md-0 mb-3 ms-md-auto position-sticky top-0'>
+                  <div className='p-2 bg-white rounded border border-warning position-sticky top-0'>
+                    <div className='count-products d-flex border-bottom border-dark mb-2 pb-1'>
+                      <span>All 10 product</span>
+                      <span className='ms-auto'>{formatCurrency(200)}</span>
+                    </div>
+                    <div className='total-discount d-flex'>
+                      <span>Discount amount:</span>
+                      <span className='ms-auto text-danger'>
+                        {'10%' ? '-' : ''}
+                        {formatCurrency(5)}
+                      </span>
+                    </div>
 
-                  <div className='total-price d-flex fs-4 fw-semibold'>
-                    <span>Total</span>
-                    <span className='ms-auto'>{formatCurrency(10)}</span>
+                    <div className='total-price d-flex fs-4 fw-semibold'>
+                      <span>Total</span>
+                      <span className='ms-auto'>{formatCurrency(10)}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </>
+          ) : (
+            <div className='text-center fs-5'>List is empty</div>
+          )}
+          {/* </div> */}
         </div>
       </div>
     </>

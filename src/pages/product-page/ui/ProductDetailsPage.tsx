@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 
 import { LgCard } from '@/entities/product-item';
-import { ProductSchema } from '@/entities/products';
+import { ProductData, ProductSchema } from '@/entities/products';
 import { ImageBar } from '@/shared/ui/img-bar/ImageBar';
 import { LazyImg } from '@/shared/ui/lazy-img/LazyImg';
 import { Loader } from '@/shared/ui/loader/Loader';
@@ -17,7 +17,7 @@ const styleImg = {
 };
 
 export const ProductDetailsPage = () => {
-  const [product, setProduct] = useState<ProductSchema | null>(null);
+  const [product, setProduct] = useState<ProductData | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
   const [isLoading, setIsLoading] = useState<StatusType>('idle');
 
