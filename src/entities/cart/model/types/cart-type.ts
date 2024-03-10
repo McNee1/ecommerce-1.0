@@ -2,9 +2,14 @@ import { ProductData } from '@/entities/products';
 
 type T = 'failed' | 'idle' | 'pending' | 'succeeded';
 
+export interface CartData extends Omit<ProductData, 'id' | 'countInCart'> {
+  count: number;
+  id: string;
+}
+
 export interface CartSchema {
-  addingStatus: T;
-  error: string | null;
-  shoppingCart: ProductData[] | null;
+  actionStatus: T;
+  error: null | string;
+  shoppingCart: CartData[] | null;
   status: T;
 }

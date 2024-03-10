@@ -7,9 +7,9 @@ export const Rating = ({ className, rating }: RatingProps) => {
   return (
     <>
       {rating && (
-        <div className={['text', className].join(' ')}>
+        <p className={['m-0 text', className].join(' ')}>
           Rating: <span style={{ color: 'red' }}>{rating}</span>
-        </div>
+        </p>
       )}
     </>
   );

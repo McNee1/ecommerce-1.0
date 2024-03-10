@@ -1,6 +1,7 @@
 export interface ProductData {
   brand: string;
   category: string;
+  countInCart?: number;
   description: string;
   discountPercentage: number;
   id: number;

@@ -30,7 +30,7 @@ export const ProductButton = ({
         <AppButton
           onClick={() => onAddToCart(product)}
           disabled={addingStatus === 'loading'}
-          className='success bg-gradient mt-auto w-100'
+          className='btn-success bg-gradient mt-auto w-100'
         >
           <span className={addingStatus === 'loading' ? 'd-none' : ''}>Add to cart</span>
 

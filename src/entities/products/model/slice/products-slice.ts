@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchProducts } from '../services/fetch-products';
-import { ProductSchema } from '../types/product-type';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getProducts } from '../services/get-products';
+import { ProductData, ProductSchema } from '../types/product-type';
 
 const initialState = {
   error: null,
@@ -11,21 +11,54 @@ const initialState = {
 export const productsSlice = createSlice({
   initialState,
   name: 'products',
-  reducers: {},
+  reducers: {
+    increaseProductCount: (state, { payload: id }: PayloadAction<number>) => {
+      if (state.products) {
+        state.products = state.products?.map((product) =>
+          product.id === id
+            ? { ...product, countInCart: product.countInCart! + 1 }
+            : { ...product }
+        );
+      }
+    },
+    deleteProductCount: (state, { payload: id }: PayloadAction<number>) => {
+      if (state.products) {
+        state.products = state.products?.map((product) =>
+          product.id === id ? { ...product, countInCart: 0 } : { ...product }
+        );
+      }
+    },
+    decreaseProductCount: (state, { payload: id }) => {
+      if (state.products) {
+        state.products = state.products?.map((product) =>
+          product.id === id
+            ? { ...product, countInCart: product.countInCart! - 1 }
+            : { ...product }
+        );
+      }
+    },
+    addProductCount: (state, action: PayloadAction<number>) => {
+      if (state.products) {
+        state.products = state.products?.map((product) =>
+          product.id === action.payload ? { ...product, countInCart: 1 } : { ...product }
+        );
+      }
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(fetchProducts.pending, (state) => {
+    builder.addCase(getProducts.pending, (state) => {
       if (state.status === 'idle') {
         state.status = 'pending';
       }
     });
-    builder.addCase(fetchProducts.rejected, (state, actions) => {
+    builder.addCase(getProducts.rejected, (state, actions) => {
       state.status = 'failed';
       if (actions.payload) {
         state.error = actions.payload;
       }
     });
-    builder.addCase(fetchProducts.fulfilled, (state, { payload }) => {
-      state.products = payload.products;
+    builder.addCase(getProducts.fulfilled, (state, { payload: products }) => {
+      state.products = products;
       state.status = 'succeeded';
       state.error = null;
     });

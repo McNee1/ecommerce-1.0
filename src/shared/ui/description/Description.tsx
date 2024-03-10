@@ -20,17 +20,17 @@ export const Description = ({
 
   return (
     <>
-      <div
+      <p
         style={{
           textOverflow: 'ellipsis',
           overflow: 'hidden',
           whiteSpace: 'nowrap',
         }}
-        className={['card-text ', className].join(' ')}
+        className={['card-text m-0', className].join(' ')}
       >
         <span className='text'>Description: </span>
-        <span>{str}</span>
-      </div>
+        {str}
+      </p>
     </>
   );
 };

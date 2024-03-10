@@ -5,7 +5,7 @@ type AppButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 export const AppButton = ({ children, className, ...rest }: AppButtonProps) => {
   return (
     <button
-      className={['btn btn-', className].join('')}
+      className={['btn ', className].join('')}
       {...rest}
     >
       {children}

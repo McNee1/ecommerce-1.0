@@ -1,10 +1,7 @@
 import { Link } from 'react-router-dom';
 import type { ProductData } from '../model/types/product-type';
-import { ProductButton } from './ui/product-button/ProductButton';
 
-import { useAppDispatch } from '@/app/hook/hooks';
 import { PRODUCT_DERAILS } from '@/app/providers/router/lib/path';
-import { cartActions } from '@/entities/cart';
 import { countDiscountPrice } from '@/shared/lib/discount';
 import { formatCurrency } from '@/shared/lib/formatCurrency';
 import { AppButton } from '@/shared/ui/app-button/AppButton';
@@ -15,15 +12,21 @@ import { Price } from '@/shared/ui/price/Price';
 import { Rating } from '@/shared/ui/rating/Rating';
 
 interface MdCardProps {
+  onAddToCart: (product: ProductData) => void;
+  onDecreaseCount: (product: ProductData) => void;
+  onIncreaseCount: (product: ProductData) => void;
   product: ProductData;
 }
 
-export const MdCard = ({ product }: MdCardProps) => {
+export const MdCard = ({
+  product,
+  onAddToCart,
+  onDecreaseCount,
+  onIncreaseCount,
+}: MdCardProps) => {
   const discountPrice = formatCurrency(
     countDiscountPrice(product.price, product.discountPercentage)
   );
-
-  const dispatch = useAppDispatch();
 
   return (
     <div className='card bg-light col h-100'>
@@ -47,29 +50,71 @@ export const MdCard = ({ product }: MdCardProps) => {
             price={formatCurrency(product.price)}
             discount={product.discountPercentage}
           />
-          <DiscountPrice
-            discountPrice={discountPrice}
-            discount={product.discountPercentage}
-          >
-            <DiscountBadge discount={product.discountPercentage} />
-          </DiscountPrice>
+          <p className='m-0 d-flex align-items-center'>
+            <DiscountPrice
+              discountPrice={discountPrice}
+              discount={product.discountPercentage}
+            />
+
+            <DiscountBadge
+              className='ms-2'
+              discount={product.discountPercentage}
+            />
+          </p>
         </div>
         <Rating
           className='mb-1'
           rating={product.rating}
         />
-        <AppButton
-          className='success mt-auto'
-          onClick={() => dispatch(cartActions.addToCart(product))}
-        >
-          click, me
-        </AppButton>
 
-        {/* <ProductButton
-          product={product}
-          isButton
-          // {...rest}
-        /> */}
+        {product.countInCart ? (
+          <div className='btn-group align-items-center bg-warning mt-auto'>
+            <AppButton
+              className='btn-warning p-1'
+              onClick={() => onDecreaseCount(product)}
+            >
+              <svg
+                width='16'
+                height='16'
+                fill='currentColor'
+                viewBox='0 0 16 16'
+                className='bi bi-dash-lg'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z'
+                />
+              </svg>
+            </AppButton>
+            <div className='text-center px-1 w-25'>{product.countInCart}</div>
+            <AppButton
+              className='btn-warning p-1'
+              onClick={() => onIncreaseCount(product)}
+            >
+              <svg
+                width='15'
+                height='16'
+                fill='currentColor'
+                viewBox='0 0 16 16'
+                className='bi bi-plus-lg'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z'
+                />
+              </svg>
+            </AppButton>
+          </div>
+        ) : (
+          <AppButton
+            className='btn-success mt-auto p-1'
+            onClick={() => onAddToCart(product)}
+          >
+            click, me
+          </AppButton>
+        )}
       </div>
     </div>
   );

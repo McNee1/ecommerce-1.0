@@ -1,9 +1,13 @@
 import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/app/hook/hooks';
+import { addToCart } from '@/entities/cart/model/services/addToCart';
+import { increaseProductsCount } from '@/entities/cart/model/services/increaseProductsCount';
 import {
-  fetchProducts,
+  getProducts,
   MdCard,
+  ProductData,
+  productsActions,
   selectProducts,
   selectProductsError,
   selectProductsStatus,
@@ -18,38 +22,59 @@ export const MainPage = () => {
   const error = useAppSelector(selectProductsError);
 
   useEffect(() => {
-    void dispatch(fetchProducts(10));
-  }, [dispatch]);
+    if (!products?.length) {
+      void dispatch(getProducts(10));
+    }
+  }, [dispatch, products]);
 
-  if (status === 'pending') {
-    return <Loader />;
-  }
-  if (error) {
-    return error;
-  }
+  const handleAddToCart = (product: ProductData) => {
+    void dispatch(addToCart(product));
+    dispatch(productsActions.addProductCount(product.id));
+  };
+
+  const handleIncreaseCount = (product: ProductData) => {
+    void dispatch(increaseProductsCount(product));
+    dispatch(productsActions.increaseProductCount(product.id));
+  };
+  const handleDecreaseCount = (product: ProductData) => {
+    void dispatch(increaseProductsCount(product));
+  };
 
   return (
     <>
-      <div className='my-2'>
-        <h1>Shop</h1>
-      </div>
-
-      <div className='row gx-2 gy-3'>
+      {status === 'pending' ? (
+        <Loader />
+      ) : error && status === 'failed' ? (
+        error
+      ) : (
         <>
-          {products ? (
-            products.map((product) => (
-              <div
-                key={product.id}
-                className='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
-              >
-                <MdCard product={product} />
-              </div>
-            ))
-          ) : (
-            <div className='text-center fs-5'>List is empty</div>
-          )}
+          <div className='my-2'>
+            <h1>Shop</h1>
+          </div>
+
+          <div className='row gx-2 gy-3'>
+            <>
+              {products ? (
+                products.map((product) => (
+                  <div
+                    key={product.id}
+                    className='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
+                  >
+                    <MdCard
+                      product={product}
+                      onAddToCart={handleAddToCart}
+                      onDecreaseCount={handleDecreaseCount}
+                      onIncreaseCount={handleIncreaseCount}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className='text-center fs-5'>List is empty</div>
+              )}
+            </>
+          </div>
         </>
-      </div>
+      )}
     </>
   );
 };
