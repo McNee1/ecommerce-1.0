@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { isAxiosError } from 'axios';
 import { ProductApiResponse, ProductData } from '../types/product-type';
 
-import { getCartProducts } from '@/entities/cart/model/services/getCartProducts';
+import { getCartProducts } from '@/entities/cart/model/services/get-cart-products';
 import { CartData } from '@/entities/cart/model/types/cart-type';
 
 export const getProducts = createAsyncThunk<

@@ -1,10 +1,6 @@
 import { Link } from 'react-router-dom';
-import { deleteFormCart } from '../model/services/deleteFromCart';
-import { increaseProductsCount } from '../model/services/increaseProductsCount';
 import { CartData } from '../model/types/cart-type';
 
-import { useAppDispatch } from '@/app/hook/hooks';
-import { productsActions } from '@/entities/products';
 import { countDiscountPrice } from '@/shared/lib/discount';
 import { formatCurrency } from '@/shared/lib/formatCurrency';
 import { AppButton } from '@/shared/ui/app-button/AppButton';
@@ -13,14 +9,20 @@ import { DiscountPrice } from '@/shared/ui/discount-pice/DiscountPrice';
 import { Price } from '@/shared/ui/price/Price';
 
 interface SmCardProps {
+  onDecreaseCount: (id: string) => void;
+  onDeleteProduct: (id: string) => void;
+  onIncreaseCount: (id: string) => void;
   product: CartData;
 }
 
-export const SmCard = ({ product }: SmCardProps) => {
+export const SmCard = ({
+  product,
+  onIncreaseCount,
+  onDecreaseCount,
+  onDeleteProduct,
+}: SmCardProps) => {
   const discountPrice = countDiscountPrice(product.price, product.discountPercentage);
   const formattedCurrency = formatCurrency(discountPrice);
-
-  const dispatch = useAppDispatch();
 
   return (
     <div
@@ -43,22 +45,7 @@ export const SmCard = ({ product }: SmCardProps) => {
           // style={imgOpt?.size}
         />
       </Link>
-      {/* {isDelete && (
-  <AppButton
-    onClick={() => onDelete(product.id)}
-    myClass={
-      'warning position-absolute top-0 end-0 btn btn-sm text-white rounded-circle d-flex justify-content-center align-items-center'
-    }
-    styles={{
-      height: '1.5rem',
-      width: '1.5rem',
-      transform: 'translate(20%, -30%)',
-      fontSize: '0.7rem',
-    }}
-  >
-    X
-  </AppButton>
-)} */}
+
       <div className='card-body p-1 ps-3 overflow-hidden d-flex flex-column h-100'>
         <h5 className='card-title mb-1 fs-6'>{product.title}</h5>
         <Price
@@ -78,18 +65,17 @@ export const SmCard = ({ product }: SmCardProps) => {
 
         <div className='mt-auto w-100 d-flex'>
           <AppButton
-            onClick={() => {
-              void dispatch(deleteFormCart(product.id));
-              dispatch(productsActions.deleteProductCount(+product.id));
-            }}
             className='p-0'
-            // disabled={addingStatus === 'loading'}
+            onClick={() => onDeleteProduct(product.id)}
           >
             &#10005;
           </AppButton>
 
           <div className='btn-group align-items-center bg-warning ms-auto'>
-            <AppButton className='btn-warning p-1'>
+            <AppButton
+              className='btn-warning p-1'
+              onClick={() => onDecreaseCount(product.id)}
+            >
               <svg
                 width='16'
                 height='16'
@@ -106,11 +92,8 @@ export const SmCard = ({ product }: SmCardProps) => {
             </AppButton>
             <div className='text-center px-1 w-25'>{product.count}</div>
             <AppButton
-              onClick={() => {
-                void dispatch(increaseProductsCount(product));
-                dispatch(productsActions.increaseProductCount(+product.id));
-              }}
               className='btn-warning p-1'
+              onClick={() => onIncreaseCount(product.id)}
             >
               <svg
                 width='15'

@@ -13,8 +13,8 @@ import { Rating } from '@/shared/ui/rating/Rating';
 
 interface MdCardProps {
   onAddToCart: (product: ProductData) => void;
-  onDecreaseCount: (product: ProductData) => void;
-  onIncreaseCount: (product: ProductData) => void;
+  onDecreaseCount: (id: number) => void;
+  onIncreaseCount: (id: number) => void;
   product: ProductData;
 }
 
@@ -71,7 +71,7 @@ export const MdCard = ({
           <div className='btn-group align-items-center bg-warning mt-auto'>
             <AppButton
               className='btn-warning p-1'
-              onClick={() => onDecreaseCount(product)}
+              onClick={() => onDecreaseCount(product.id)}
             >
               <svg
                 width='16'
@@ -90,7 +90,7 @@ export const MdCard = ({
             <div className='text-center px-1 w-25'>{product.countInCart}</div>
             <AppButton
               className='btn-warning p-1'
-              onClick={() => onIncreaseCount(product)}
+              onClick={() => onIncreaseCount(product.id)}
             >
               <svg
                 width='15'

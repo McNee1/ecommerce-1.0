@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/app/hook/hooks';
-import { addToCart } from '@/entities/cart/model/services/addToCart';
-import { increaseProductsCount } from '@/entities/cart/model/services/increaseProductsCount';
+import { decreaseProductCountAsync, increaseProductCountAsync } from '@/entities/cart';
+import { addToCart } from '@/entities/cart/model/services/add-to-cart';
 import {
   getProducts,
   MdCard,
@@ -32,12 +32,13 @@ export const MainPage = () => {
     dispatch(productsActions.addProductCount(product.id));
   };
 
-  const handleIncreaseCount = (product: ProductData) => {
-    void dispatch(increaseProductsCount(product));
-    dispatch(productsActions.increaseProductCount(product.id));
+  const handleIncreaseCount = (id: number) => {
+    void dispatch(increaseProductCountAsync(id));
+    dispatch(productsActions.increaseProductCount(id));
   };
-  const handleDecreaseCount = (product: ProductData) => {
-    void dispatch(increaseProductsCount(product));
+  const handleDecreaseCount = (id: number) => {
+    void dispatch(decreaseProductCountAsync(id));
+    dispatch(productsActions.decreaseProductCount(id));
   };
 
   return (

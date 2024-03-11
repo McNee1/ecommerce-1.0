@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/app/hook/hooks';
-import { getCartProducts } from '@/entities/cart/model/services/getCartProducts';
 import {
+  decreaseProductCountAsync,
+  increaseProductCountAsync,
   selectErrorCart,
   selectShoppingCart,
   selectStatusCart,
-} from '@/entities/cart/model/slice/cart-slice';
-import { SmCard } from '@/entities/cart/ui/SmCard';
+  SmCard,
+} from '@/entities/cart';
+import { deleteFormCart } from '@/entities/cart/model/services/delete-from-cart';
+import { getCartProducts } from '@/entities/cart/model/services/get-cart-products';
+import { productsActions } from '@/entities/products';
 import { formatCurrency } from '@/shared/lib/formatCurrency';
 import { Checkbox } from '@/shared/ui/checkbox/Checkbox';
 import { Loader } from '@/shared/ui/loader/Loader';
@@ -20,8 +24,24 @@ export const CartPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    void dispatch(getCartProducts());
-  }, [dispatch]);
+    if (!shoppingCart?.length) {
+      void dispatch(getCartProducts());
+    }
+  }, [dispatch, shoppingCart]);
+
+  const handleIncreaseCount = (productId: string) => {
+    void dispatch(increaseProductCountAsync(productId));
+    dispatch(productsActions.increaseProductCount(productId));
+  };
+  const handleDecreaseCount = (productId: string) => {
+    void dispatch(decreaseProductCountAsync(productId));
+    dispatch(productsActions.decreaseProductCount(productId));
+  };
+
+  const handleDeleteProduct = (productId: string) => {
+    void dispatch(deleteFormCart(productId));
+    dispatch(productsActions.deleteProductCount(productId));
+  };
 
   return (
     <>
@@ -44,7 +64,12 @@ export const CartPage = () => {
                         className='d-flex flex-row mb-2'
                       >
                         <Checkbox id={id} />
-                        <SmCard product={product} />
+                        <SmCard
+                          product={product}
+                          onIncreaseCount={handleIncreaseCount}
+                          onDecreaseCount={handleDecreaseCount}
+                          onDeleteProduct={handleDeleteProduct}
+                        />
                       </div>
                     ))}
                   </div>

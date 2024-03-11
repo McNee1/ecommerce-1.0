@@ -1,1 +1,10 @@
+export { selectShoppingCart } from './model/selectors/select-cart';
+export { selectErrorCart } from './model/selectors/select-error';
+export { selectStatusCart } from './model/selectors/select-status';
+export { addToCart } from './model/services/add-to-cart';
+export { decreaseProductCountAsync } from './model/services/decrease-product-count';
+export { deleteFormCart } from './model/services/delete-from-cart';
+export { getCartProducts } from './model/services/get-cart-products';
+export { increaseProductCountAsync } from './model/services/increase-product-count';
 export { cartActions, cartReducer } from './model/slice/cart-slice';
+export { SmCard } from './ui/SmCard';

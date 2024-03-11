@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getProducts } from '../services/get-products';
-import { ProductData, ProductSchema } from '../types/product-type';
+import { ProductSchema } from '../types/product-type';
 
 const initialState = {
   error: null,
@@ -12,26 +12,26 @@ export const productsSlice = createSlice({
   initialState,
   name: 'products',
   reducers: {
-    increaseProductCount: (state, { payload: id }: PayloadAction<number>) => {
+    increaseProductCount: (state, { payload: id }: PayloadAction<string | number>) => {
       if (state.products) {
         state.products = state.products?.map((product) =>
-          product.id === id
+          product.id === Number(id)
             ? { ...product, countInCart: product.countInCart! + 1 }
             : { ...product }
         );
       }
     },
-    deleteProductCount: (state, { payload: id }: PayloadAction<number>) => {
+    deleteProductCount: (state, { payload: id }: PayloadAction<string>) => {
       if (state.products) {
         state.products = state.products?.map((product) =>
-          product.id === id ? { ...product, countInCart: 0 } : { ...product }
+          product.id === Number(id) ? { ...product, countInCart: 0 } : { ...product }
         );
       }
     },
-    decreaseProductCount: (state, { payload: id }) => {
+    decreaseProductCount: (state, { payload: id }: PayloadAction<string | number>) => {
       if (state.products) {
         state.products = state.products?.map((product) =>
-          product.id === id
+          product.id === Number(id)
             ? { ...product, countInCart: product.countInCart! - 1 }
             : { ...product }
         );
