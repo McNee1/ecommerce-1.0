@@ -1,6 +1,11 @@
 import './checkbox.css';
 
-export const Checkbox = ({ id }: { id: number }) => {
+interface CheckboxProps {
+  id: number;
+  onChecked: (check: boolean) => void;
+}
+
+export const Checkbox = ({ id, onChecked }: CheckboxProps) => {
   const myId = String(id);
   return (
     <div className='checkbox-wrapper-4'>
@@ -8,6 +13,7 @@ export const Checkbox = ({ id }: { id: number }) => {
         id={myId}
         type='checkbox'
         className='inp-cbx'
+        onChange={(e) => onChecked(e.target.checked)}
       />
       <label
         htmlFor={myId}

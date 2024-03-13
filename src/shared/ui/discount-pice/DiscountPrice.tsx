@@ -1,13 +1,7 @@
-export const DiscountPrice = ({
-  discount,
-  discountPrice,
-}: {
-  discount: number;
-  discountPrice: string;
-}) => {
+export const DiscountPrice = ({ discountPrice }: { discountPrice: string }) => {
   return (
     <>
-      {discount && (
+      {discountPrice && (
         <span
           className='card-discount'
           style={{ fontSize: '19px', fontWeight: '600' }}

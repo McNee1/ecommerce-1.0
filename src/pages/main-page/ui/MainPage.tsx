@@ -22,7 +22,7 @@ export const MainPage = () => {
   const error = useAppSelector(selectProductsError);
 
   useEffect(() => {
-    if (!products?.length) {
+    if (!products) {
       void dispatch(getProducts(10));
     }
   }, [dispatch, products]);

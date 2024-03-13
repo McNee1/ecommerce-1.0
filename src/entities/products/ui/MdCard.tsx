@@ -38,7 +38,7 @@ export const MdCard = ({
             objectFit: 'cover',
           }}
           alt={product.title}
-          src={product.images}
+          src={product.thumbnail}
           className='card-img-top position-relative lazy-img'
         />
       </Link>
@@ -50,17 +50,16 @@ export const MdCard = ({
             price={formatCurrency(product.price)}
             discount={product.discountPercentage}
           />
-          <p className='m-0 d-flex align-items-center'>
-            <DiscountPrice
-              discountPrice={discountPrice}
-              discount={product.discountPercentage}
-            />
+          {product.discountPercentage && (
+            <p className='m-0 d-flex align-items-center'>
+              <DiscountPrice discountPrice={discountPrice} />
 
-            <DiscountBadge
-              className='ms-2'
-              discount={product.discountPercentage}
-            />
-          </p>
+              <DiscountBadge
+                className='ms-2'
+                discount={product.discountPercentage}
+              />
+            </p>
+          )}
         </div>
         <Rating
           className='mb-1'

@@ -6,12 +6,15 @@ import { formatCurrency } from '@/shared/lib/formatCurrency';
 import { AppButton } from '@/shared/ui/app-button/AppButton';
 import { DiscountBadge } from '@/shared/ui/discount-badge/DiscountBadge';
 import { DiscountPrice } from '@/shared/ui/discount-pice/DiscountPrice';
+import { LazyImg } from '@/shared/ui/lazy-img/LazyImg';
 import { Price } from '@/shared/ui/price/Price';
 
+type T = (id: string) => void;
+
 interface SmCardProps {
-  onDecreaseCount: (id: string) => void;
-  onDeleteProduct: (id: string) => void;
-  onIncreaseCount: (id: string) => void;
+  onDecreaseCount: T;
+  onDeleteProduct: T;
+  onIncreaseCount: T;
   product: CartData;
 }
 
@@ -21,47 +24,43 @@ export const SmCard = ({
   onDecreaseCount,
   onDeleteProduct,
 }: SmCardProps) => {
-  const discountPrice = countDiscountPrice(product.price, product.discountPercentage);
-  const formattedCurrency = formatCurrency(discountPrice);
+  const discountPrice = formatCurrency(
+    countDiscountPrice(product.price, product.discountPercentage)
+  );
 
   return (
     <div
-      style={{ height: '130px' }}
       className='card w-100 flex-row border-0'
+      style={{ height: '130px', maxWidth: '650px' }}
     >
       <Link to={`/product/${product.id}`}>
-        <img
+        <LazyImg
           style={{
             height: '100%',
             objectFit: 'cover',
             width: '150px',
           }}
-          className=''
           alt={product.title}
           src={product.images}
-          // src={'src/assets/img_placeholder.png'}
-          // data-src={product.thumbnail}
-          // ref={ref}
-          // style={imgOpt?.size}
+          className='rounded-1'
         />
       </Link>
 
       <div className='card-body p-1 ps-3 overflow-hidden d-flex flex-column h-100'>
         <h5 className='card-title mb-1 fs-6'>{product.title}</h5>
         <Price
-          price={formattedCurrency}
+          price={formatCurrency(product.price)}
           discount={product.discountPercentage}
         />
-        <p className='m-0 d-flex align-items-center'>
-          <DiscountPrice
-            discountPrice={formattedCurrency}
-            discount={product.discountPercentage}
-          />
-          <DiscountBadge
-            className='ms-2'
-            discount={product.discountPercentage}
-          />
-        </p>
+        {!!product.discountPercentage && (
+          <p className='m-0 d-flex align-items-center'>
+            <DiscountPrice discountPrice={discountPrice} />
+            <DiscountBadge
+              className='ms-2'
+              discount={product.discountPercentage}
+            />
+          </p>
+        )}
 
         <div className='mt-auto w-100 d-flex'>
           <AppButton
@@ -73,7 +72,7 @@ export const SmCard = ({
 
           <div className='btn-group align-items-center bg-warning ms-auto'>
             <AppButton
-              className='btn-warning p-1'
+              className='btn-warning px-2 py-1'
               onClick={() => onDecreaseCount(product.id)}
             >
               <svg
@@ -90,9 +89,9 @@ export const SmCard = ({
                 />
               </svg>
             </AppButton>
-            <div className='text-center px-1 w-25'>{product.count}</div>
+            <div className='text-center px-2 w-100'>{product.count}</div>
             <AppButton
-              className='btn-warning p-1'
+              className='btn-warning px-2 py-1'
               onClick={() => onIncreaseCount(product.id)}
             >
               <svg

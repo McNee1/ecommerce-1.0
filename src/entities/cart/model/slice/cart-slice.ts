@@ -7,7 +7,7 @@ import { increaseProductCountAsync } from '../services/increase-product-count';
 import { CartSchema } from '../types/cart-type';
 
 const initialState = {
-  shoppingCart: [],
+  shoppingCart: null,
   error: null,
   actionStatus: 'idle',
   status: 'idle',
