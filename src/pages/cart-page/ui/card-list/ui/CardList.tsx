@@ -31,6 +31,7 @@ export const CardList = ({
             onChecked={(check: boolean) => onChecked(check, product)}
           />
           <SmCard
+            id={id}
             product={product}
             onIncreaseCount={onIncreaseCount}
             onDecreaseCount={onDecreaseCount}

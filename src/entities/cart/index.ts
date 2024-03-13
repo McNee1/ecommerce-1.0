@@ -1,3 +1,4 @@
+export { selectActionStatus } from './model/selectors/select-action-status';
 export { selectShoppingCart } from './model/selectors/select-cart';
 export { selectErrorCart } from './model/selectors/select-error';
 export { selectStatusCart } from './model/selectors/select-status';

@@ -23,7 +23,7 @@ export const MainPage = () => {
 
   useEffect(() => {
     if (!products) {
-      void dispatch(getProducts(10));
+      void dispatch(getProducts(18));
     }
   }, [dispatch, products]);
 

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { CartData } from '../model/types/cart-type';
+import { selectActionStatus } from '..';
 
+import { useAppSelector } from '@/app/hook/hooks';
 import { countDiscountPrice } from '@/shared/lib/discount';
 import { formatCurrency } from '@/shared/lib/formatCurrency';
 import { AppButton } from '@/shared/ui/app-button/AppButton';
@@ -12,6 +14,7 @@ import { Price } from '@/shared/ui/price/Price';
 type T = (id: string) => void;
 
 interface SmCardProps {
+  id: number;
   onDecreaseCount: T;
   onDeleteProduct: T;
   onIncreaseCount: T;
@@ -24,14 +27,16 @@ export const SmCard = ({
   onDecreaseCount,
   onDeleteProduct,
 }: SmCardProps) => {
+  const actionStatus = useAppSelector(selectActionStatus);
+
   const discountPrice = formatCurrency(
     countDiscountPrice(product.price, product.discountPercentage)
   );
 
   return (
     <div
-      className='card w-100 flex-row border-0'
       style={{ height: '130px', maxWidth: '650px' }}
+      className='card w-100 flex-row border-0 shadow-sm'
     >
       <Link to={`/product/${product.id}`}>
         <LazyImg
@@ -41,8 +46,8 @@ export const SmCard = ({
             width: '150px',
           }}
           alt={product.title}
-          src={product.images}
           className='rounded-1'
+          src={product.thumbnail}
         />
       </Link>
 
@@ -73,6 +78,7 @@ export const SmCard = ({
           <div className='btn-group align-items-center bg-warning ms-auto'>
             <AppButton
               className='btn-warning px-2 py-1'
+              disabled={actionStatus === 'pending'}
               onClick={() => onDecreaseCount(product.id)}
             >
               <svg
@@ -92,6 +98,7 @@ export const SmCard = ({
             <div className='text-center px-2 w-100'>{product.count}</div>
             <AppButton
               className='btn-warning px-2 py-1'
+              disabled={actionStatus === 'pending'}
               onClick={() => onIncreaseCount(product.id)}
             >
               <svg

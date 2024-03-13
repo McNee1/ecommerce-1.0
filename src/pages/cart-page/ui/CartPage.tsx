@@ -30,11 +30,11 @@ export const CartPage = () => {
           style={{ maxWidth: '1200px' }}
         >
           <h3 className='mb-3'>Shopping basket</h3>
-          {/* <div className='d-flex flex-column-reverse flex-md-row w-100'> */}
+
           <div className='row'>
             {shoppingCart?.length ? (
               <>
-                <div className='col-12 col-md-8 col-lg-9'>
+                <div className='col-12 col-md-8 col-lg-9 order-1 order-md-0'>
                   <CardList
                     onChecked={handlePrice}
                     shoppingCart={shoppingCart}
@@ -43,14 +43,13 @@ export const CartPage = () => {
                     onIncreaseCount={handleIncreaseCount}
                   />
                 </div>
-                <div className='col col-md-4 col-lg-3'>
+                <div className='col col-md-4 col-lg-3 order-0 order-md-1'>
                   <Payment paymentPrice={paymentPrice} />
                 </div>
               </>
             ) : (
               <div className='text-center fs-5'>List is empty</div>
             )}
-            {/* </div> */}
           </div>
         </div>
       )}

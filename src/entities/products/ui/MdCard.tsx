@@ -38,7 +38,7 @@ export const MdCard = ({
             objectFit: 'cover',
           }}
           alt={product.title}
-          src={product.thumbnail}
+          src={product.images}
           className='card-img-top position-relative lazy-img'
         />
       </Link>
