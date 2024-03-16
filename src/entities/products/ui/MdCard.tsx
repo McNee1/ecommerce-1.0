@@ -44,7 +44,9 @@ export const MdCard = ({
       </Link>
 
       <div className='card-body overflow-hidden p-2 d-flex flex-column'>
-        <h5 className='card-title mb-1'>{product.title}</h5>
+        <h5 className='card-title mb-1'>
+          {product.title} {product.id}
+        </h5>
         <div className='price'>
           <Price
             price={formatCurrency(product.price)}

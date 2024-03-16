@@ -24,4 +24,5 @@ export interface ProductSchema {
   error: null | string;
   products: ProductData[] | null;
   status: 'failed' | 'idle' | 'pending' | 'succeeded';
+  total: number | null;
 }

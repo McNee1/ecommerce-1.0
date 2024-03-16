@@ -6,6 +6,7 @@ const initialState = {
   error: null,
   products: null,
   status: 'idle',
+  total: null,
 } satisfies ProductSchema as ProductSchema;
 
 export const productsSlice = createSlice({
@@ -47,9 +48,7 @@ export const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getProducts.pending, (state) => {
-      if (state.status === 'idle') {
-        state.status = 'pending';
-      }
+      state.status = 'pending';
     });
     builder.addCase(getProducts.rejected, (state, actions) => {
       state.status = 'failed';
@@ -57,8 +56,15 @@ export const productsSlice = createSlice({
         state.error = actions.payload;
       }
     });
-    builder.addCase(getProducts.fulfilled, (state, { payload: products }) => {
-      state.products = products;
+    builder.addCase(getProducts.fulfilled, (state, { payload: productData }) => {
+      if (!state.products) {
+        console.log('object');
+        state.products = productData.products;
+        state.total = productData.total;
+      } else if (state.status !== 'succeeded') {
+        state.products = [...state.products, ...productData.products];
+        state.total = productData.total;
+      }
       state.status = 'succeeded';
       state.error = null;
     });

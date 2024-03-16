@@ -5,14 +5,22 @@ import { ProductApiResponse, ProductData } from '../types/product-type';
 import { getCartProducts } from '@/entities/cart/model/services/get-cart-products';
 import { CartData } from '@/entities/cart/model/types/cart-type';
 
+interface TOptions {
+  limit: number;
+  skip: number;
+}
+
 export const getProducts = createAsyncThunk<
-  ProductData[],
-  number,
+  {
+    products: ProductData[];
+    total: number;
+  },
+  TOptions,
   { rejectValue: null | string }
->('products/getProducts', async (limit: number, thunkApi) => {
+>('products/getProducts', async (options, thunkApi) => {
   try {
     const response = await axios.get<ProductApiResponse>(
-      `https://dummyjson.com/products?limit=${limit ?? 10}`
+      `https://dummyjson.com/products?limit=${options.limit}&skip=${options.skip}`
     );
 
     const cartProducts = (await thunkApi.dispatch(getCartProducts()))
@@ -28,7 +36,7 @@ export const getProducts = createAsyncThunk<
       }
     );
 
-    return updatedProductsByCartCount;
+    return { products: updatedProductsByCartCount, total: response.data.total };
   } catch (error) {
     if (isAxiosError(error)) {
       return thunkApi.rejectWithValue(error.message);
