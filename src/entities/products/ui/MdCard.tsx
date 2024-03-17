@@ -1,10 +1,10 @@
+import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import type { ProductData } from '../model/types/product-type';
 
 import { PRODUCT_DERAILS } from '@/app/providers/router/lib/path';
 import { countDiscountPrice } from '@/shared/lib/discount';
 import { formatCurrency } from '@/shared/lib/formatCurrency';
-import { AppButton } from '@/shared/ui/app-button/AppButton';
 import { DiscountBadge } from '@/shared/ui/discount-badge/DiscountBadge';
 import { DiscountPrice } from '@/shared/ui/discount-pice/DiscountPrice';
 import { LazyImg } from '@/shared/ui/lazy-img/LazyImg';
@@ -12,17 +12,17 @@ import { Price } from '@/shared/ui/price/Price';
 import { Rating } from '@/shared/ui/rating/Rating';
 
 interface MdCardProps {
-  onAddToCart: (product: ProductData) => void;
-  onDecreaseCount: (id: number) => void;
-  onIncreaseCount: (id: number) => void;
   product: ProductData;
+  renderAddToCart: (product: ProductData) => ReactNode;
+  renderDecreaseCount: (id: number) => ReactNode;
+  renderIncreaseCount: (id: number) => ReactNode;
 }
 
 export const MdCard = ({
   product,
-  onAddToCart,
-  onDecreaseCount,
-  onIncreaseCount,
+  renderAddToCart,
+  renderDecreaseCount,
+  renderIncreaseCount,
 }: MdCardProps) => {
   const discountPrice = formatCurrency(
     countDiscountPrice(product.price, product.discountPercentage)
@@ -70,51 +70,13 @@ export const MdCard = ({
 
         {product.countInCart ? (
           <div className='btn-group align-items-center bg-warning mt-auto'>
-            <AppButton
-              className='btn-warning p-1'
-              onClick={() => onDecreaseCount(product.id)}
-            >
-              <svg
-                width='16'
-                height='16'
-                fill='currentColor'
-                viewBox='0 0 16 16'
-                className='bi bi-dash-lg'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  fillRule='evenodd'
-                  d='M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z'
-                />
-              </svg>
-            </AppButton>
+            {renderDecreaseCount(product.id)}
             <div className='text-center px-1 w-25'>{product.countInCart}</div>
-            <AppButton
-              className='btn-warning p-1'
-              onClick={() => onIncreaseCount(product.id)}
-            >
-              <svg
-                width='15'
-                height='16'
-                fill='currentColor'
-                viewBox='0 0 16 16'
-                className='bi bi-plus-lg'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  fillRule='evenodd'
-                  d='M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z'
-                />
-              </svg>
-            </AppButton>
+
+            {renderIncreaseCount(product.id)}
           </div>
         ) : (
-          <AppButton
-            className='btn-success mt-auto p-1'
-            onClick={() => onAddToCart(product)}
-          >
-            click, me
-          </AppButton>
+          renderAddToCart(product)
         )}
       </div>
     </div>
