@@ -1,7 +1,7 @@
 interface PaginationProps {
   limitPerPage: number;
   onNextPage: () => void;
-  onPageChanger: (num: number) => void;
+  onPageChanger: (pageId: number) => void;
   onPrevPage: () => void;
   pageNumber: number;
   pages: number[];
@@ -28,13 +28,13 @@ export const Pagination = ({
         </button>
 
         {total &&
-          pages.map((number) => (
+          pages.map((pageId) => (
             <button
-              key={number}
-              onClick={() => onPageChanger(number)}
-              className={['page-link', number === pageNumber ? 'active' : ''].join(' ')}
+              key={pageId}
+              onClick={() => onPageChanger(pageId)}
+              className={['page-link', pageId === pageNumber ? 'active' : ''].join(' ')}
             >
-              {number}
+              {pageId}
             </button>
           ))}
         {total && (

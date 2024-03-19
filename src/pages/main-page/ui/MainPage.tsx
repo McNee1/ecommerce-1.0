@@ -1,5 +1,5 @@
 import { LIMIT_PER_PAGE } from '../model/const/constants';
-import { useGetProducts } from '../model/hooks/use-get-products';
+import { useLoadProducts } from '../model/hooks/use-load-products';
 import { usePagination } from '../model/hooks/use-pagination';
 
 import { useAppSelector } from '@/app/hook/hooks';
@@ -23,15 +23,16 @@ export const MainPage = () => {
   const total = useAppSelector(selectTotalCount);
 
   const {
-    chunkedArray,
     pages,
     pageNumber,
     handleNextPage,
     handlePageChanger,
     handlePrevPage,
+    curPageData,
+    skipCount,
   } = usePagination(products);
 
-  useGetProducts(products);
+  useLoadProducts(pageNumber, curPageData, skipCount);
 
   return (
     <>
@@ -47,8 +48,8 @@ export const MainPage = () => {
 
           <div className='row gx-2 gy-3'>
             <>
-              {chunkedArray ? (
-                chunkedArray[pageNumber - 1].map((product) => (
+              {curPageData ? (
+                curPageData?.map((product) => (
                   <div
                     key={product.id}
                     className='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
