@@ -6,16 +6,19 @@ import { getProducts, ProductData } from '@/entities/products';
 
 export const useLoadProducts = (
   pageNumber: number,
-  currChunkedPage: ProductData[] | null,
-  skipCount: number
+  curPageData: ProductData[] | null,
+  skipCount: number,
+  selectedCategory: string
 ) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const load = () => {
-      if (pageNumber && !currChunkedPage) {
+      if (pageNumber && !curPageData?.length) {
+        console.log(curPageData);
         void dispatch(
           getProducts({
+            category: selectedCategory,
             limit: pageNumber * LIMIT_PER_PAGE - skipCount,
             skip: skipCount,
           })
@@ -23,6 +26,6 @@ export const useLoadProducts = (
       }
     };
 
-    load();
-  }, [currChunkedPage, dispatch, pageNumber, skipCount]);
+    void load();
+  }, [dispatch, pageNumber, skipCount, selectedCategory, curPageData]);
 };

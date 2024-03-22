@@ -21,7 +21,9 @@ export interface ProductApiResponse {
 }
 
 export interface ProductSchema {
+  currentCategory: string;
   error: null | string;
+  initCategory: boolean;
   products: ProductData[] | null;
   status: 'failed' | 'idle' | 'pending' | 'succeeded';
   total: number | null;

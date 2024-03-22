@@ -7,6 +7,8 @@ const initialState = {
   products: null,
   status: 'idle',
   total: null,
+  initCategory: false,
+  currentCategory: '',
 } satisfies ProductSchema as ProductSchema;
 
 export const productsSlice = createSlice({
@@ -45,6 +47,10 @@ export const productsSlice = createSlice({
         );
       }
     },
+    resetProducts: (state) => {
+      console.log('reset');
+      state.products = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getProducts.pending, (state) => {
@@ -57,14 +63,13 @@ export const productsSlice = createSlice({
       }
     });
     builder.addCase(getProducts.fulfilled, (state, { payload: productData }) => {
-      if (!state.products) {
-        console.log('object');
+      if (!state.products || state.products.length === 0) {
         state.products = productData.products;
-        state.total = productData.total;
-      } else if (state.status !== 'succeeded') {
+      } else {
         state.products = [...state.products, ...productData.products];
-        state.total = productData.total;
       }
+
+      state.total = productData.total;
       state.status = 'succeeded';
       state.error = null;
     });

@@ -1,27 +1,60 @@
+import { useEffect, useState } from 'react';
+
+import { generatePagesForPagination } from '@/pages/main-page/lib/generate-pages';
+
 interface PaginationProps {
+  className?: string;
   limitPerPage: number;
   onNextPage: () => void;
   onPageChanger: (pageId: number) => void;
   onPrevPage: () => void;
   pageNumber: number;
-  pages: number[];
+  pagesInView: number;
   total: number | null;
 }
 
 export const Pagination = ({
   pageNumber,
-  pages,
+  pagesInView,
   total,
   limitPerPage,
   onNextPage,
   onPageChanger,
   onPrevPage,
+  className,
 }: PaginationProps) => {
+  const [pages, setPages] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (total) {
+      const totalPages = Math.ceil(total / limitPerPage);
+      const pagesToDisplay = Math.min(pagesInView, totalPages);
+      const initPages = Array.from({ length: pagesToDisplay }, (_, index) => index + 1);
+      setPages(initPages);
+    }
+  }, [limitPerPage, pagesInView, total]);
+
+  useEffect(() => {
+    const updatedPages = generatePagesForPagination(pageNumber, pagesInView);
+
+    if (updatedPages) {
+      setPages(updatedPages);
+    }
+  }, [pageNumber, pagesInView]);
+
+  const nextPageHandler = () => {
+    onNextPage();
+  };
+
+  const prevPageHandler = () => {
+    onPrevPage();
+  };
+
   return (
-    <nav className='d-flex mt-2 mb-1'>
+    <nav className={['d-flex', className].join(' ')}>
       <div className='pagination m-auto'>
         <button
-          onClick={onPrevPage}
+          onClick={prevPageHandler}
           className={['page-link', pageNumber <= 1 && 'disabled'].join(' ')}
         >
           &laquo;
@@ -43,7 +76,7 @@ export const Pagination = ({
               'page-link',
               pageNumber >= total / limitPerPage && 'disabled',
             ].join(' ')}
-            onClick={onNextPage}
+            onClick={nextPageHandler}
           >
             &raquo;
           </button>
