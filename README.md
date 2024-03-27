@@ -8,7 +8,7 @@ This small project is a web application developed using React.js that is a simpl
 
 Installation:
 
-`yarn add`
+`yarn`
 
 To Start Server:
 
